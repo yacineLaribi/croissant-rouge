@@ -1,0 +1,294 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vérification Bénéficiaire - Croissant Rouge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rouge-primary: #D64545;
+            --rouge-light: #F2E8E8;
+            --rouge-accent: #B63838;
+            --neutral-dark: #2C2C2C;
+            --neutral-medium: #6B6B6B;
+            --neutral-light: #F8F8F8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--neutral-light);
+            color: var(--neutral-dark);
+        }
+        
+        .serif {
+            font-family: 'Crimson Pro', serif;
+        }
+        
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        .nav-link {
+            color: var(--neutral-medium);
+            text-decoration: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--rouge-primary);
+            background: var(--rouge-light);
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            padding: 2rem;
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid #E5E5E5;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            background: white;
+            text-align: center;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--rouge-primary);
+            box-shadow: 0 0 0 4px rgba(214, 69, 69, 0.1);
+        }
+        
+        .btn-primary {
+            background: var(--rouge-primary);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+        
+        .btn-primary:hover {
+            background: var(--rouge-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(214, 69, 69, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--rouge-primary);
+            border: 2px solid var(--rouge-primary);
+            padding: 0.875rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--rouge-light);
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        
+        .status-eligible {
+            background: #ECFDF5;
+            color: #065F46;
+            border: 2px solid #A7F3D0;
+        }
+        
+        .status-received {
+            background: #FEF3C7;
+            color: #92400E;
+            border: 2px solid #FDE68A;
+        }
+        
+        .result-card {
+            opacity: 0;
+            animation: slideIn 0.5s ease-out forwards;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, var(--rouge-light) 0%, #FAFAFA 100%);
+            border-left: 4px solid var(--rouge-primary);
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <img src="{% static 'logo.jpg' %}" alt="Croissant Rouge" class="w-10 h-10 object-contain">
+                    <span class="font-bold text-xl serif" style="color: var(--rouge-primary);">Croissant Rouge Algérien</span>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-2">
+                    <a href="{% url 'home' %}" class="nav-link active">Vérification</a>
+                    <a href="{% url 'save' %}" class="nav-link">Enregistrer</a>
+                    <a href="profile.html" class="nav-link">Profil</a>
+                    <a href="admin.html" class="nav-link">Tableau de bord</a>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <span class="text-sm text-neutral-medium hidden sm:block">{{request.user.fullname}}</span>
+                    <a href="{% url 'logout' %}" class="text-sm font-medium" style="color: var(--rouge-primary);">Déconnexion</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold mb-3 serif" style="color: var(--rouge-primary);">Vérification de Bénéficiaire</h1>
+            <p class="text-lg text-neutral-medium">Vérifiez si une personne a déjà reçu de l'aide durant ce Ramadan</p>
+        </div>
+        
+        <!-- Info Box -->
+        <div class="info-box mb-8">
+            <div class="flex items-start gap-3">
+                <svg class="w-6 h-6 flex-shrink-0 mt-0.5" style="color: var(--rouge-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <div>
+                    <h3 class="font-semibold mb-1">Comment ça marche?</h3>
+                    <p class="text-sm text-neutral-medium">Entrez le numéro d'identité nationale (14 chiffres) ou le numéro de passeport du bénéficiaire pour vérifier son statut dans notre système partagé.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Check Form -->
+        <div class="card mb-8">
+<form method="POST">
+    {% csrf_token %}
+    <div class="input-group">
+        <label class="block text-sm font-semibold mb-2">
+            Numéro d'identité nationale ou ccp
+        </label>
+        <input
+            type="text"
+            name="identifier"
+            required
+            placeholder="Entrez le NIN ou CCP"
+        >
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn-primary">
+            Vérifier le statut
+        </button>
+    </div>
+</form>
+
+        </div>
+        
+{% if status == "eligible" %}
+<div class="card result-card">
+    <div class="text-center">
+        <span class="status-badge status-eligible">
+            Éligible pour l'aide
+        </span>
+
+        <p class="text-neutral-medium mt-4">
+            Cette personne n'a pas encore reçu d'aide.
+        </p>
+
+        <a href="{% url 'save' %}?id={{ identifier }}" class="btn-primary">
+            Enregistrer la distribution
+        </a>
+    </div>
+</div>
+{% endif %}
+
+        
+{% if status == "received" %}
+<div class="card result-card">
+    <div class="text-center">
+        <span class="status-badge status-received">
+            Aide déjà reçue
+        </span>
+
+        <div class="mt-6 bg-gray-50 rounded-lg p-4 text-left">
+            <div class="flex justify-between">
+                <span>Organisation:</span>
+                <span class="font-semibold">{{ distribution.created_by.organisation }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span>Type d'aide:</span>
+                <span class="font-semibold">{{ distribution.get_aid_type_display }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span>Date:</span>
+                <span class="font-semibold">{{ distribution.distribution_date }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+    </main>
+    
+</body>
+</html>

@@ -1,0 +1,354 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enregistrer un Bénéficiaire - Croissant Rouge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rouge-primary: #D64545;
+            --rouge-light: #F2E8E8;
+            --rouge-accent: #B63838;
+            --neutral-dark: #2C2C2C;
+            --neutral-medium: #6B6B6B;
+            --neutral-light: #F8F8F8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--neutral-light);
+            color: var(--neutral-dark);
+        }
+        
+        .serif {
+            font-family: 'Crimson Pro', serif;
+        }
+        
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        .nav-link {
+            color: var(--neutral-medium);
+            text-decoration: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--rouge-primary);
+            background: var(--rouge-light);
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            padding: 2.5rem;
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--neutral-dark);
+        }
+        
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 0.875rem 1.25rem;
+            border: 2px solid #E5E5E5;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            font-family: 'DM Sans', sans-serif;
+        }
+        
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: var(--rouge-primary);
+            box-shadow: 0 0 0 4px rgba(214, 69, 69, 0.1);
+        }
+        
+        .input-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .input-helper {
+            font-size: 0.875rem;
+            color: var(--neutral-medium);
+            margin-top: 0.25rem;
+        }
+        
+        .btn-primary {
+            background: var(--rouge-primary);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+        
+        .btn-primary:hover {
+            background: var(--rouge-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(214, 69, 69, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--neutral-medium);
+            border: 2px solid #E5E5E5;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--neutral-medium);
+            color: var(--neutral-dark);
+        }
+        
+        .success-message {
+            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+            border: 2px solid #A7F3D0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+        
+        .success-message.show {
+            display: block;
+            animation: slideDown 0.5s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .required::after {
+            content: '*';
+            color: var(--rouge-primary);
+            margin-left: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <img src="{% static 'logo.jpg' %}" alt="Croissant Rouge" class="w-10 h-10 object-contain">
+                    <span class="font-bold text-xl serif" style="color: var(--rouge-primary);">Croissant Rouge Algérien</span>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-2">
+                    <a href="{% url 'home' %}" class="nav-link">Vérification</a>
+                    <a href="{% url 'save' %}" class="nav-link active">Enregistrer</a>
+                    <a href="profile.html" class="nav-link">Profil</a>
+                    <a href="admin.html" class="nav-link">Tableau de bord</a>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <span class="text-sm text-neutral-medium hidden sm:block">Organisation Caritas</span>
+                    <a href="login.html" class="text-sm font-medium" style="color: var(--rouge-primary);">Déconnexion</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="max-w-3xl mx-auto px-4 py-12">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold mb-3 serif" style="color: var(--rouge-primary);">Enregistrer une Distribution</h1>
+            <p class="text-lg text-neutral-medium">Enregistrez les informations du bénéficiaire après distribution de l'aide</p>
+        </div>
+        
+        <!-- Success Message -->
+        <div id="successMessage" class="success-message">
+            <div class="flex items-start gap-3">
+                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <div>
+                    <h3 class="font-semibold text-green-800 mb-1">Distribution enregistrée avec succès!</h3>
+                    <p class="text-sm text-green-700">Les informations ont été sauvegardées dans le système partagé.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Form -->
+        <div class="card">
+            <form id="beneficiaryForm" method="POST" action="{% url 'save' %}">
+                {% csrf_token %}
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="input-group md:col-span-2">
+                        <label for="fullname" class="required">Nom complet du bénéficiaire</label>
+                        <input 
+                            type="text" 
+                            id="fullname" 
+                            name="fullname"
+                            required
+                            placeholder="Ex: Ahmed Ben Mohamed"
+                        >
+                    </div>
+
+                    <div class="input-group">
+                        <label for="adress" class="">Adresse</label>
+                        <input 
+                            type="text" 
+                            name="adress"
+                            id="adress" 
+                            placeholder="Usto , Oran"
+                        >
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="commune">Commune</label>
+                        <input 
+                            type="text" 
+                            id="commune" 
+                            name="commune"
+                            placeholder="Optionnel"
+                        >
+                    </div>
+                    <div class="input-group">
+                        <label for="idNumber" class="required">Numéro d'identité nationale (NIN)</label>
+                        <input 
+                            type="text" 
+                            id="idNumber" 
+                            name="idNumber"
+                            required
+                            pattern="[0-9]{18}"
+                            maxlength="18"
+                            placeholder="18 chiffres"
+                        >
+                        <p class="input-helper">Format: 18 chiffres (CNI)</p>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="passport">Ou numéro de CCP</label>
+                        <input 
+                            type="text" 
+                            id="passport" 
+                            name="passport"
+                            placeholder="Optionnel"
+                        >
+                        <p class="input-helper">Si pas de NIN disponible</p>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="aidType" class="required">Type d'aide distribué</label>
+                        <select id="aidType" name="aidType" required>
+                            <option value="">Sélectionner un type</option>
+                            <option value="colis-alimentaire">Colis alimentaire</option>
+                            <option value="aide-financiere">Aide financière</option>
+                            <option value="vetements">Vêtements</option>
+                            <option value="produits-hygiene">Produits d'hygiène</option>
+                            <option value="medicaments">Médicaments</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="date" class="required">Date de distribution</label>
+                        <input 
+                            type="date" 
+                            id="date" 
+                            name="date"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="input-group md:col-span-2">
+                        <label for="notes">Notes additionnelles</label>
+                        <textarea 
+                            id="notes" 
+                            name="notes"
+                            placeholder="Informations complémentaires sur la distribution (optionnel)"
+                        ></textarea>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4 mt-8 justify-end">
+                    <button type="button" class="btn-secondary" onclick="window.location.href='home.html'">
+                        Annuler
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        <span class="inline-flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Enregistrer la distribution
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+    
+    <script>
+
+        
+        // Auto-fill ID number or passport (one or the other)
+        const idNumberInput = document.getElementById('idNumber');
+        const passportInput = document.getElementById('passport');
+        
+        idNumberInput.addEventListener('input', function() {
+            if (this.value) {
+                passportInput.removeAttribute('required');
+            }
+        });
+        
+        passportInput.addEventListener('input', function() {
+            if (this.value) {
+                idNumberInput.removeAttribute('required');
+            } else {
+                idNumberInput.setAttribute('required', '');
+            }
+        });
+    </script>
+</body>
+</html>

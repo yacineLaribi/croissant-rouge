@@ -1,0 +1,278 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Croissant Rouge Solidarité</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rouge-primary: #D64545;
+            --rouge-light: #F2E8E8;
+            --rouge-accent: #B63838;
+            --neutral-dark: #2C2C2C;
+            --neutral-medium: #6B6B6B;
+            --neutral-light: #F8F8F8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #FAFAFA 0%, var(--rouge-light) 100%);
+            min-height: 100vh;
+            color: var(--neutral-dark);
+        }
+        
+        .serif {
+            font-family: 'Crimson Pro', serif;
+        }
+        
+        .signup-container {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+        
+        .crescent-decoration {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 30px solid var(--rouge-primary);
+            border-right-color: transparent;
+            opacity: 0.1;
+            transform: rotate(-45deg);
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid #E5E5E5;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--rouge-primary);
+            box-shadow: 0 0 0 4px rgba(214, 69, 69, 0.1);
+        }
+        
+        .input-group label {
+            position: absolute;
+            left: 1.25rem;
+            top: 1rem;
+            color: var(--neutral-medium);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            background: white;
+            padding: 0 0.5rem;
+        }
+        
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            top: -0.75rem;
+            font-size: 0.875rem;
+            color: var(--rouge-primary);
+        }
+        
+        .btn-primary {
+            background: var(--rouge-primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1.05rem;
+        }
+        
+        .btn-primary:hover {
+            background: var(--rouge-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(214, 69, 69, 0.3);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--rouge-primary), var(--rouge-accent));
+        }
+        
+        .password-strength {
+            height: 4px;
+            background: #E5E5E5;
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
+        <!-- Background Decorations -->
+        <div class="crescent-decoration" style="top: -100px; left: -100px;"></div>
+        <div class="crescent-decoration" style="bottom: -100px; right: -100px; transform: rotate(135deg);"></div>
+        
+        <div class="signup-container w-full max-w-md">
+            <!-- Logo & Header -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center bg-gradient-to-br from-red-500 to-red-600 rounded-2xl mb-4 shadow-lg">
+                    <img src="{% static 'logo.jpg' %}" alt="Croissant Rouge" class="w-32 h-32 object-cover rounded-2xl">
+
+                </div>
+                <h1 class="text-4xl font-bold mb-2 serif" style="color: var(--rouge-primary);">Croissant Rouge Algérien</h1>
+                <p class="text-neutral-medium text-lg">Rejoignez notre réseau solidaire</p>
+            </div>
+            
+            <!-- Signup Form -->
+            <div class="card">
+                <h2 class="text-2xl font-bold mb-6 serif">Créer un compte</h2>
+                
+                <form method="POST" action="{% url 'signup' %}" id="signupForm">
+                    {% csrf_token %}
+
+                    <div class="input-group">
+                        <input type="text" id="fullname" name="fullname" placeholder=" " required>
+                        <label for="fullname">Nom complet</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="email" id="email" name="email" placeholder=" " required>
+                        <label for="email">Adresse email</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="password" id="password" name="password" placeholder=" " required minlength="8">
+                        <label for="password">Mot de passe</label>
+
+                        <div class="password-strength">
+                            <div class="password-strength-bar" id="strengthBar"></div>
+                        </div>
+                        <p class="text-xs text-neutral-medium mt-1">Minimum 8 caractères</p>
+                    </div>
+
+                    <!-- organisation MUST match model choices -->
+                    <div class="input-group">
+                        <select name="organisation" required
+                                class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl bg-white">
+                            <option value="" disabled selected hidden></option>
+                            <option value="croissant-rouge">Croissant Rouge</option>
+                            <option value="kafil-el-yatim">Kafil El Yatim</option>
+                            <option value="elbaraka">Association El Baraka</option>
+                            <option value="other">Autre</option>
+                        </select>
+                        <label>Organisation</label>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="flex items-start cursor-pointer">
+                            <input type="checkbox" required
+                                class="w-4 h-4 text-red-500 border-gray-300 rounded mt-1">
+                            <span class="ml-2 text-sm text-neutral-medium">
+                                J'accepte les
+                                <a href="#" class="font-semibold text-red-500">conditions</a>
+                            </span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        S'inscrire
+                    </button>
+                </form>
+
+                
+                <div class="mt-6 text-center">
+                    <p class="text-neutral-medium">
+                        Vous avez déjà un compte? 
+                        <a href="{% url 'login' %}" class="font-semibold" style="color: var(--rouge-primary);">Se connecter</a>
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="text-center mt-8 text-sm text-neutral-medium">
+                <p>Ensemble pour une aide équitable et coordonnée</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Password strength indicator
+        const passwordInput = document.getElementById('password');
+        const strengthBar = document.getElementById('strengthBar');
+        
+        passwordInput.addEventListener('input', function() {
+            const value = this.value;
+            let strength = 0;
+            
+            if (value.length >= 8) strength += 25;
+            if (value.length >= 12) strength += 25;
+            if (/[a-z]/.test(value) && /[A-Z]/.test(value)) strength += 25;
+            if (/\d/.test(value) && /[^a-zA-Z\d]/.test(value)) strength += 25;
+            
+            strengthBar.style.width = strength + '%';
+            
+            if (strength < 50) {
+                strengthBar.style.background = '#EF4444';
+            } else if (strength < 75) {
+                strengthBar.style.background = '#F59E0B';
+            } else {
+                strengthBar.style.background = '#10B981';
+            }
+        });
+    </script>
+</body>
+</html>
