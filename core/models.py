@@ -66,7 +66,7 @@ class Distribution(models.Model):
         max_length=18,
         blank=True,
         null=True,
-        unique=True,
+        unique=False,
         help_text="Numéro d'identité nationale (18 chiffres)"
     )
 
@@ -80,6 +80,7 @@ class Distribution(models.Model):
     aid_type = models.CharField(max_length=30, choices=AID_CHOICES)
     distribution_date = models.DateField()
     notes = models.TextField(blank=True)
+    created_by = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
 

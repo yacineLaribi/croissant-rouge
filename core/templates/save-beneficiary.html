@@ -171,6 +171,33 @@
             color: var(--rouge-primary);
             margin-left: 0.25rem;
         }
+        .error-message {
+    background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%);
+    border: 2px solid #FECACA;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: none;
+}
+
+.error-message.show {
+    display: block;
+    animation: slideDown 0.5s ease-out;
+}
+
+.info-message {
+    background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+    border: 2px solid #BFDBFE;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: none;
+}
+
+.info-message.show {
+    display: block;
+    animation: slideDown 0.5s ease-out;
+}
     </style>
 </head>
 <body>
@@ -200,24 +227,39 @@
     
     <!-- Main Content -->
     <main class="max-w-3xl mx-auto px-4 py-12">
+        
         <!-- Header -->
         <div class="mb-8">
             <h1 class="text-4xl font-bold mb-3 serif" style="color: var(--rouge-primary);">Enregistrer une Distribution</h1>
             <p class="text-lg text-neutral-medium">Enregistrez les informations du bénéficiaire après distribution de l'aide</p>
         </div>
         
-        <!-- Success Message -->
-        <div id="successMessage" class="success-message">
+        <!-- Messages -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="{% if message.tags == 'success' %}success-message show{% elif message.tags == 'error' %}error-message show{% else %}info-message show{% endif %}" id="messageAlert">
             <div class="flex items-start gap-3">
-                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                </svg>
+                {% if message.tags == 'success' %}
+                    <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                {% elif message.tags == 'error' %}
+                    <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293z" clip-rule="evenodd"/>
+                    </svg>
+                {% endif %}
                 <div>
-                    <h3 class="font-semibold text-green-800 mb-1">Distribution enregistrée avec succès!</h3>
-                    <p class="text-sm text-green-700">Les informations ont été sauvegardées dans le système partagé.</p>
+                    <h3 class="font-semibold {% if message.tags == 'success' %}text-green-800{% elif message.tags == 'error' %}text-red-800{% endif %} mb-1">
+                        {% if message.tags == 'success' %}Succès!{% elif message.tags == 'error' %}Erreur!{% endif %}
+                    </h3>
+                    <p class="text-sm {% if message.tags == 'success' %}text-green-700{% elif message.tags == 'error' %}text-red-700{% endif %}">
+                        {{ message }}
+                    </p>
                 </div>
             </div>
         </div>
+    {% endfor %}
+{% endif %}
         
         <!-- Form -->
         <div class="card">
@@ -327,11 +369,24 @@
                 </div>
             </form>
         </div>
+
     </main>
     
     <script>
 
-        
+        // Auto-dismiss messages after 5 seconds
+document.addEventListener('DOMContentLoaded', function() {
+    const messages = document.querySelectorAll('.success-message.show, .error-message.show, .info-message.show');
+    messages.forEach(function(message) {
+        setTimeout(function() {
+            message.style.opacity = '0';
+            message.style.transition = 'opacity 0.5s ease-out';
+            setTimeout(function() {
+                message.remove();
+            }, 500);
+        }, 5000);
+    });
+});
         // Auto-fill ID number or passport (one or the other)
         const idNumberInput = document.getElementById('idNumber');
         const passportInput = document.getElementById('passport');

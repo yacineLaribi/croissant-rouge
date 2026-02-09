@@ -6,6 +6,8 @@ from .models import CustomUser , Distribution
 from django.contrib.auth.decorators import login_required
 from django.utils.timezone import now
 from django.db import models
+from django.contrib import messages
+from django.db import IntegrityError
 
 
 # Create your views here.
@@ -33,17 +35,47 @@ def home(request):
 @login_required
 def save_beneficiary(request):
     if request.method == "POST":
-        Distribution.objects.create(
-            fullname=request.POST.get("fullname"),
-            address=request.POST.get("adress"),
-            commune=request.POST.get("commune"),
-            nin=request.POST.get("idNumber") or None,
-            ccp_or_passport=request.POST.get("passport") or None,
-            aid_type=request.POST.get("aidType"),
-            distribution_date=request.POST.get("date") or now().date(),
-            notes=request.POST.get("notes"),
-        )
-        return redirect("save")  # or any success page
+        
+            # Validate required fields
+            fullname = request.POST.get("fullname")
+            aid_type = request.POST.get("aidType")
+            date = request.POST.get("date")
+            
+            if not fullname or not aid_type:
+                messages.error(request, "Veuillez remplir tous les champs obligatoires.")
+                return render(request, "save-beneficiary.html")
+            
+            # Check if at least one ID is provided
+            nin = request.POST.get("idNumber") or None
+            ccp = request.POST.get("passport") or None
+            
+            if not nin and not ccp:
+                messages.error(request, "Veuillez fournir soit le NIN soit le numéro de CCP.")
+                return render(request, "save-beneficiary.html")
+            
+            # Create distribution record
+            Distribution.objects.create(
+                fullname=fullname,
+                address=request.POST.get("adress"),
+                commune=request.POST.get("commune"),
+                nin=nin,
+                ccp_or_passport=ccp,
+                aid_type=aid_type,
+                distribution_date=date or now().date(),
+                notes=request.POST.get("notes"),
+                created_by=request.user,
+            )
+            
+            messages.success(request, "Distribution enregistrée avec succès!")
+            return redirect("save")
+            
+        # except IntegrityError:
+        #     messages.error(request, "Erreur: Cette entrée existe déjà dans le système.")
+        #     return render(request, "save-beneficiary.html")
+        
+        # except Exception as e:
+        #     messages.error(request, f"Une erreur s'est produite: {str(e)}")
+        #     return render(request, "save-beneficiary.html")
 
     return render(request, "save-beneficiary.html")
 
