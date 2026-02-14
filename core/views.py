@@ -117,6 +117,7 @@ def dashboard(request):
 def signup_view(request):
     if request.method == 'POST':
         email = request.POST.get('email')
+        phone = request.POST.get('phone')
         password = request.POST.get('password')
         fullname = request.POST.get('fullname')
         organisation = request.POST.get('organisation')
