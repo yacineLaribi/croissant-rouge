@@ -32,6 +32,8 @@ class CustomUser(AbstractUser):
 
     # override username (keep it but disable usage)
     username = models.CharField(max_length=255, blank=True, null=True, unique=False)
+    
+    phone = models.IntegerField(blank=True,null=True)
 
     email = models.EmailField(unique=True)
 
