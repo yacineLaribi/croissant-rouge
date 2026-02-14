@@ -24,15 +24,17 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractUser):
     organisations = [
-        ('croissant-rouge', 'Croissant Rouge'),
-        ('kafil-el-yatim', 'Kafil El Yatim'),
-        ('elbaraka', 'Association El Baraka'),
-        ('other', 'Autre'),
+        ('croissant-rouge', 'Croissant Rouge / الهلال الأحمر'),
+        ('kafil-el-yatim', 'Kafil El Yatim / كافل اليتيم'),
+        ('elbaraka', 'Association El Baraka / جمعية البركة'),
+        # ('rabitat-oran', 'رابطة الجمعيات الفاعلة لولاية وهران / Ligue des associations actives de la wilaya d’Oran'),
+        ('rabitat-oran', 'رابطة الجمعيات الفاعلة لولاية وهران'),
+        ('other', 'Autre / أخرى'),
     ]
 
     # override username (keep it but disable usage)
     username = models.CharField(max_length=255, blank=True, null=True, unique=False)
-    
+
     phone = models.IntegerField(blank=True,null=True)
 
     email = models.EmailField(unique=True)
