@@ -1,13 +1,14 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Organisation - Croissant Rouge</title>
+    <title>Profil Organisation</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --rouge-primary: #D64545;
@@ -17,349 +18,126 @@
             --neutral-medium: #6B6B6B;
             --neutral-light: #F8F8F8;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
             font-family: 'DM Sans', sans-serif;
             background: var(--neutral-light);
-            color: var(--neutral-dark);
         }
-        
-        .serif {
-            font-family: 'Crimson Pro', serif;
-        }
-        
-        .navbar {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 0;
-            z-index: 50;
-        }
-        
-        .nav-link {
-            color: var(--neutral-medium);
-            text-decoration: none;
-            padding: 0.75rem 1.25rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        .nav-link:hover, .nav-link.active {
-            color: var(--rouge-primary);
-            background: var(--rouge-light);
-        }
-        
-        .card {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            padding: 2rem;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, var(--rouge-light) 0%, #FAFAFA 100%);
-            border-radius: 16px;
-            padding: 2rem;
-            border: 2px solid var(--rouge-light);
-            transition: all 0.3s ease;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(214, 69, 69, 0.15);
-        }
-        
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--rouge-primary), var(--rouge-accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .profile-header {
-            background: linear-gradient(135deg, var(--rouge-primary) 0%, var(--rouge-accent) 100%);
-            border-radius: 16px;
-            padding: 2.5rem;
-            color: white;
-            margin-bottom: 2rem;
-        }
-        
-        .avatar {
-            width: 100px;
-            height: 100px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--rouge-primary);
-            border: 4px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 1rem 0;
-            border-bottom: 1px solid #E5E5E5;
-        }
-        
-        .info-row:last-child {
-            border-bottom: none;
-        }
-        
-        .info-label {
-            color: var(--neutral-medium);
-            font-weight: 500;
-        }
-        
-        .info-value {
-            font-weight: 600;
-            color: var(--neutral-dark);
-        }
-        
-        .btn-primary {
-            background: var(--rouge-primary);
-            color: white;
-            padding: 0.875rem 2rem;
-            border-radius: 12px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        .btn-primary:hover {
-            background: var(--rouge-accent);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(214, 69, 69, 0.3);
-        }
-        
-        .btn-outline {
-            background: white;
-            color: var(--rouge-primary);
-            border: 2px solid var(--rouge-primary);
-            padding: 0.875rem 2rem;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        .btn-outline:hover {
-            background: var(--rouge-light);
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-        
-        .badge-active {
-            background: #ECFDF5;
-            color: #065F46;
-        }
+        .serif { font-family: 'Crimson Pro', serif; }
+        .navbar { background: white; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+        .nav-link { padding: .75rem 1.25rem; border-radius: 8px; font-weight: 500; }
+        .nav-link.active { background: var(--rouge-light); color: var(--rouge-primary); }
+        .card { background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,.06); }
+        .profile-header { background: linear-gradient(135deg,var(--rouge-primary),var(--rouge-accent)); border-radius: 16px; padding: 2.5rem; color: white; }
+        .avatar { width: 96px; height: 96px; background: white; border-radius: 50%; display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:700; color:var(--rouge-primary); }
+        .stat-number { font-size: 3rem; font-weight: 700; background: linear-gradient(135deg,var(--rouge-primary),var(--rouge-accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .info-row { display:flex; justify-content:space-between; padding:1rem 0; border-bottom:1px solid #eee; }
     </style>
 </head>
+
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-3">
-                        <img src="logo.jpg" alt="Croissant Rouge" class="w-10 h-10 object-contain">
-                        <span class="font-bold text-xl serif" style="color: var(--rouge-primary);">Croissant Rouge</span>
-                </div>
-                
-                <div class="hidden md:flex items-center gap-2">
-                    <a href="home.html" class="nav-link">Vérification</a>
-                    <a href="save-beneficiary.html" class="nav-link">Enregistrer</a>
-                    <a href="profile.html" class="nav-link active">Profil</a>
-                    <a href="admin.html" class="nav-link">Tableau de bord</a>
-                </div>
-                
-                <div class="flex items-center gap-4">
-                    <span class="text-sm text-neutral-medium hidden sm:block">Organisation Caritas</span>
-                    <a href="login.html" class="text-sm font-medium" style="color: var(--rouge-primary);">Déconnexion</a>
-                </div>
-            </div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <img src="{% static 'logo.jpg' %}" class="w-9 h-9">
+            <span class="serif font-bold text-xl" style="color:var(--rouge-primary)">Croissant Rouge</span>
         </div>
-    </nav>
-    
-    <!-- Main Content -->
-    <main class="max-w-5xl mx-auto px-4 py-12">
-        <!-- Profile Header -->
-        <div class="profile-header">
-            <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
-                <div class="avatar">CA</div>
-                <div class="flex-1 text-center md:text-left">
-                    <h1 class="text-3xl font-bold mb-2 serif">Organisation Caritas</h1>
-                    <p class="text-white/90 mb-3">Organisation humanitaire catholique</p>
-                    <span class="badge badge-active">Compte actif</span>
-                </div>
-                <button class="btn-outline" style="background: white;" onclick="toggleEditMode()">
-                    <span class="inline-flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                        </svg>
-                        Modifier le profil
-                    </span>
-                </button>
-            </div>
+
+        <div class="hidden md:flex gap-2">
+            <a href="{% url 'home' %}" class="nav-link">Vérification</a>
+            <a href="{% url 'save' %}" class="nav-link">Enregistrer</a>
+            <a href="{% url 'profile' %}" class="nav-link active">Profil</a>
+            {% if user.is_admin %}
+            <a href="#" class="nav-link">Tableau de bord</a>
+            {% endif %}
         </div>
-        
-        <!-- Statistics -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="stat-card">
-                <div class="flex items-center justify-between mb-2">
-                    <h3 class="text-sm font-semibold text-neutral-medium uppercase tracking-wide">Bénéficiaires aidés</h3>
-                    <svg class="w-6 h-6" style="color: var(--rouge-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                    </svg>
-                </div>
-                <div class="stat-number serif">247</div>
-                <p class="text-sm text-neutral-medium mt-2">Ce mois-ci</p>
-            </div>
-            
-            <div class="stat-card">
-                <div class="flex items-center justify-between mb-2">
-                    <h3 class="text-sm font-semibold text-neutral-medium uppercase tracking-wide">Distributions</h3>
-                    <svg class="w-6 h-6" style="color: var(--rouge-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                    </svg>
-                </div>
-                <div class="stat-number serif">342</div>
-                <p class="text-sm text-neutral-medium mt-2">Total Ramadan 2024</p>
-            </div>
-            
-            <div class="stat-card">
-                <div class="flex items-center justify-between mb-2">
-                    <h3 class="text-sm font-semibold text-neutral-medium uppercase tracking-wide">Depuis</h3>
-                    <svg class="w-6 h-6" style="color: var(--rouge-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
-                </div>
-                <div class="stat-number serif">2019</div>
-                <p class="text-sm text-neutral-medium mt-2">Année d'inscription</p>
-            </div>
+
+        <div class="text-sm">
+            {{ user.email }} |
+            <a href="{% url 'logout' %}" style="color:var(--rouge-primary)">Déconnexion</a>
         </div>
-        
-        <!-- Information Details -->
-        <div class="card">
-            <h2 class="text-2xl font-bold mb-6 serif" style="color: var(--rouge-primary);">Informations de l'organisation</h2>
-            
-            <div class="space-y-0">
-                <div class="info-row">
-                    <span class="info-label">Nom de l'organisation</span>
-                    <span class="info-value">Organisation Caritas</span>
-                </div>
-                
-                <div class="info-row">
-                    <span class="info-label">Email de contact</span>
-                    <span class="info-value">contact@caritas-algerie.org</span>
-                </div>
-                
-                <div class="info-row">
-                    <span class="info-label">Téléphone</span>
-                    <span class="info-value">+213 21 XX XX XX</span>
-                </div>
-                
-                <div class="info-row">
-                    <span class="info-label">Adresse</span>
-                    <span class="info-value">Rue Mohamed V, Alger, Algérie</span>
-                </div>
-                
-                <div class="info-row">
-                    <span class="info-label">Type d'organisation</span>
-                    <span class="info-value">Organisation humanitaire</span>
-                </div>
-                
-                <div class="info-row">
-                    <span class="info-label">Numéro d'agrément</span>
-                    <span class="info-value">AGR-2019-12345</span>
-                </div>
-                
-                <div class="info-row">
-                    <span class="info-label">Responsable du compte</span>
-                    <span class="info-value">Sophie Martin</span>
-                </div>
-                
-                <div class="info-row">
-                    <span class="info-label">Date d'inscription</span>
-                    <span class="info-value">15 Janvier 2019</span>
-                </div>
-            </div>
+    </div>
+</nav>
+
+<main class="max-w-5xl mx-auto px-4 py-12">
+
+<!-- HEADER -->
+<div class="profile-header mb-8">
+    <div class="flex flex-col md:flex-row gap-6 items-center md:items-start">
+        <div class="avatar">
+            {{ user.organisation|slice:":2"|upper }}
         </div>
-        
-        <!-- Recent Activity -->
-        <div class="card mt-8">
-            <h2 class="text-2xl font-bold mb-6 serif" style="color: var(--rouge-primary);">Activité récente</h2>
-            
-            <div class="space-y-4">
-                <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
-                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                    <div class="flex-1">
-                        <p class="font-semibold">Distribution enregistrée</p>
-                        <p class="text-sm text-neutral-medium">Colis alimentaire distribué à Ahmed Ben Mohamed</p>
-                        <p class="text-xs text-neutral-medium mt-1">Il y a 2 heures</p>
-                    </div>
-                </div>
-                
-                <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
-                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-                            <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                    <div class="flex-1">
-                        <p class="font-semibold">Vérification effectuée</p>
-                        <p class="text-sm text-neutral-medium">Consultation du statut d'un bénéficiaire</p>
-                        <p class="text-xs text-neutral-medium mt-1">Il y a 5 heures</p>
-                    </div>
-                </div>
-                
-                <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
-                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                    <div class="flex-1">
-                        <p class="font-semibold">Distribution enregistrée</p>
-                        <p class="text-sm text-neutral-medium">Aide financière distribuée à Fatima Zahra</p>
-                        <p class="text-xs text-neutral-medium mt-1">Hier à 14:30</p>
-                    </div>
-                </div>
-            </div>
+
+        <div class="flex-1 text-center md:text-left">
+            <h1 class="text-3xl font-bold serif">{{ user.organisation|title }}</h1>
+            <p class="opacity-90">{{ user.fullname }}</p>
+            <span class="inline-block mt-2 px-4 py-1 rounded bg-green-100 text-green-700 text-sm font-semibold">
+                Compte actif
+            </span>
         </div>
-    </main>
-    
-    <script>
-        function toggleEditMode() {
-            alert('Fonctionnalité de modification en développement. Dans la version complète, ceci ouvrirait un formulaire de modification.');
-        }
-    </script>
+    </div>
+</div>
+
+<!-- STATS -->
+<div class="grid md:grid-cols-3 gap-6 mb-8">
+    <div class="card">
+        <p class="text-sm text-gray-500">Bénéficiaires aidés (ce mois)</p>
+        <div class="stat-number serif">{{ beneficiaries_this_month }}</div>
+    </div>
+
+    <div class="card">
+        <p class="text-sm text-gray-500">Total distributions</p>
+        <div class="stat-number serif">{{ total_distributions }}</div>
+    </div>
+
+    <div class="card">
+        <p class="text-sm text-gray-500">Inscrit depuis</p>
+        <div class="stat-number serif">{{ user.date_joined|date:"Y" }}</div>
+    </div>
+</div>
+
+<!-- INFO -->
+<div class="card mb-8">
+    <h2 class="text-2xl serif font-bold mb-6" style="color:var(--rouge-primary)">Informations</h2>
+
+    <div class="info-row">
+        <span>Email</span>
+        <span>{{ user.email }}</span>
+    </div>
+
+    <div class="info-row">
+        <span>Organisation</span>
+        <span>{{ user.organisation }}</span>
+    </div>
+
+    <div class="info-row">
+        <span>Responsable</span>
+        <span>{{ user.fullname }}</span>
+    </div>
+
+    <div class="info-row">
+        <span>Date d'inscription</span>
+        <span>{{ user.date_joined|date:"d F Y" }}</span>
+    </div>
+</div>
+
+<!-- ACTIVITY -->
+<div class="card">
+    <h2 class="text-2xl serif font-bold mb-6" style="color:var(--rouge-primary)">Activité récente</h2>
+
+    {% for d in recent_activity %}
+    <div class="p-4 mb-3 bg-gray-50 rounded-lg">
+        <p class="font-semibold">{{ d.get_aid_type_display }}</p>
+        <p class="text-sm text-gray-600">{{ d.fullname }}</p>
+        <p class="text-xs text-gray-500">{{ d.created_at|timesince }} ago</p>
+    </div>
+    {% empty %}
+    <p class="text-gray-500">Aucune activité récente</p>
+    {% endfor %}
+</div>
+
+</main>
+
 </body>
 </html>

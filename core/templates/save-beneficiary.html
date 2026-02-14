@@ -213,13 +213,13 @@
                 <div class="hidden md:flex items-center gap-2">
                     <a href="{% url 'home' %}" class="nav-link">Vérification</a>
                     <a href="{% url 'save' %}" class="nav-link active">Enregistrer</a>
-                    <a href="profile.html" class="nav-link">Profil</a>
-                    <a href="admin.html" class="nav-link">Tableau de bord</a>
+                    <a href="{% url 'profile' %}" class="nav-link">Profil</a>
+                    <a href="#" class="nav-link">Tableau de bord</a>
                 </div>
                 
                 <div class="flex items-center gap-4">
-                    <span class="text-sm text-neutral-medium hidden sm:block">Organisation Caritas</span>
-                    <a href="login.html" class="text-sm font-medium" style="color: var(--rouge-primary);">Déconnexion</a>
+                    <span class="text-sm text-neutral-medium hidden sm:block">{{request.user.organisation}}</span>
+                    <a href="{% url 'logout' %}" class="text-sm font-medium" style="color: var(--rouge-primary);">Déconnexion</a>
                 </div>
             </div>
         </div>

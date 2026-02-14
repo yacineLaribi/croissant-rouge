@@ -79,9 +79,33 @@ def save_beneficiary(request):
 
     return render(request, "save-beneficiary.html")
 
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from .models import Distribution
+from django.utils import timezone
+
+
 @login_required
 def profile(request):
-    return render(request,'profile.html')
+    user = request.user
+
+    total_distributions = Distribution.objects.filter(created_by=user).count()
+    beneficiaries_this_month = Distribution.objects.filter(
+        created_by=user,
+        distribution_date__month=timezone.now().month,
+        distribution_date__year=timezone.now().year
+    ).count()
+
+    recent_activity = Distribution.objects.filter(created_by=user).order_by('-created_at')[:5]
+
+    context = {
+        "user": user,
+        "total_distributions": total_distributions,
+        "beneficiaries_this_month": beneficiaries_this_month,
+        "recent_activity": recent_activity,
+    }
+
+    return render(request, "profile.html", context)
 
 @login_required
 def dashboard(request):
