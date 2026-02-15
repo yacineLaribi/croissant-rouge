@@ -131,7 +131,8 @@ def signup_view(request):
             password=password,
             fullname=fullname,
             organisation=organisation,
-            username=email
+            username=email,
+            phone=phone
         )
 
         login(request, user)
